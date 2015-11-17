@@ -378,18 +378,117 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          this.ctx.beginPath();
+          this.ctx.moveTo(330, 40);
+          this.ctx.lineTo(610, 40);
+          this.ctx.lineTo(610, 160);
+          this.ctx.lineTo(310, 175);
+          this.ctx.lineTo(330, 40);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = '#FFFFFF';
+          this.ctx.beginPath();
+          this.ctx.moveTo(320, 30);
+          this.ctx.lineTo(600, 30);
+          this.ctx.lineTo(600, 150);
+          this.ctx.lineTo(300, 165);
+          this.ctx.lineTo(320, 30);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = "#000000";
+          this.ctx.font = 'bold 16px PT Mono';
+          this.ctx.fillText('Ты попал в кого-то', 340, 65);
+          this.ctx.fillText('файрболом. Радуйся', 340, 85);
+          this.ctx.fillText('своей победе, жестокий', 340, 105);
+          this.ctx.fillText('человек.', 340, 125);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          this.ctx.beginPath();
+          this.ctx.moveTo(330, 40);
+          this.ctx.lineTo(610, 40);
+          this.ctx.lineTo(610, 160);
+          this.ctx.lineTo(310, 175);
+          this.ctx.lineTo(330, 40);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = '#FFFFFF';
+          this.ctx.beginPath();
+          this.ctx.moveTo(320, 30);
+          this.ctx.lineTo(600, 30);
+          this.ctx.lineTo(600, 150);
+          this.ctx.lineTo(300, 165);
+          this.ctx.lineTo(320, 30);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = "#000000";
+          this.ctx.font = 'bold 16px PT Mono';
+          this.ctx.fillText('Ты проиграл.', 340, 65);
+          this.ctx.fillText('Самое время взять реванш!', 340, 85);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          this.ctx.beginPath();
+          this.ctx.moveTo(330, 40);
+          this.ctx.lineTo(610, 40);
+          this.ctx.lineTo(610, 160);
+          this.ctx.lineTo(310, 175);
+          this.ctx.lineTo(330, 40);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = '#FFFFFF';
+          this.ctx.beginPath();
+          this.ctx.moveTo(320, 30);
+          this.ctx.lineTo(600, 30);
+          this.ctx.lineTo(600, 150);
+          this.ctx.lineTo(300, 165);
+          this.ctx.lineTo(320, 30);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = "#000000";
+          this.ctx.font = 'bold 16px PT Mono';
+          this.ctx.fillText('Игра на паузе.', 340, 65);
+          this.ctx.fillText('Как будешь готов,', 340, 85);
+          this.ctx.fillText('жми на пробел', 340, 105);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          this.ctx.beginPath();
+          this.ctx.moveTo(330, 40);
+          this.ctx.lineTo(650, 40);
+          this.ctx.lineTo(650, 160);
+          this.ctx.lineTo(310, 175);
+          this.ctx.lineTo(330, 40);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = '#FFFFFF';
+          this.ctx.beginPath();
+          this.ctx.moveTo(320, 30);
+          this.ctx.lineTo(640, 30);
+          this.ctx.lineTo(640, 150);
+          this.ctx.lineTo(300, 165);
+          this.ctx.lineTo(320, 30);
+          this.ctx.closePath();
+          this.ctx.fill();
+
+          this.ctx.fillStyle = "#000000";
+          this.ctx.font = 'bold 16px PT Mono';
+          this.ctx.fillText('Я могу перемещаться по нажатию', 340, 65);
+          this.ctx.fillText('на стрелки, а также стрелять', 340, 85);
+          this.ctx.fillText('файрболом с помощью shift. ', 340, 105);
+          this.ctx.fillText('А сейчас жми на пробел,', 340, 125);
+          this.ctx.fillText('и игра начнётся...', 340, 145);
           break;
       }
     },
