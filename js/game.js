@@ -401,7 +401,7 @@
           this.ctx.closePath();
           this.ctx.fill();
 
-          this.ctx.fillStyle = "#000000";
+          this.ctx.fillStyle = '#000000';
           this.ctx.font = 'bold 16px PT Mono';
           this.ctx.fillText('Ты попал в кого-то', 340, 65);
           this.ctx.fillText('файрболом. Радуйся', 340, 85);
@@ -429,7 +429,7 @@
           this.ctx.closePath();
           this.ctx.fill();
 
-          this.ctx.fillStyle = "#000000";
+          this.ctx.fillStyle = '#000000';
           this.ctx.font = 'bold 16px PT Mono';
           this.ctx.fillText('Ты проиграл.', 340, 65);
           this.ctx.fillText('Самое время взять реванш!', 340, 85);
@@ -455,7 +455,7 @@
           this.ctx.closePath();
           this.ctx.fill();
 
-          this.ctx.fillStyle = "#000000";
+          this.ctx.fillStyle = '#000000';
           this.ctx.font = 'bold 16px PT Mono';
           this.ctx.fillText('Игра на паузе.', 340, 65);
           this.ctx.fillText('Как будешь готов,', 340, 85);
@@ -482,7 +482,7 @@
           this.ctx.closePath();
           this.ctx.fill();
 
-          this.ctx.fillStyle = "#000000";
+          this.ctx.fillStyle = '#000000';
           this.ctx.font = 'bold 16px PT Mono';
           this.ctx.fillText('Я могу перемещаться по нажатию', 340, 65);
           this.ctx.fillText('на стрелки, а также стрелять', 340, 85);
