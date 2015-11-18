@@ -410,13 +410,11 @@
         for (var n = 0; n < countWords; n++) {
           var testLine = line + words[n] + ' ';
           var testWidth = context.measureText(testLine).width;
-          if (testWidth > maxWidth)
-          {
+          if (testWidth > maxWidth) {
             contextLocal.fillText(line, marginLeft, marginTop);
             line = words[n] + ' ';
             marginTop += lineHeight;
-          } else
-          {
+          } else {
             line = testLine;
           }
         }
