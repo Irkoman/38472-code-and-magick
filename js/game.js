@@ -377,6 +377,8 @@
     /**
      * Отрисовка экрана паузы.
      */
+
+
     _drawPauseScreen: function() {
       var context = this.ctx;
 
@@ -401,7 +403,7 @@
       context.fillStyle = '#000000';
       context.font = 'bold 16px PT Mono';
 
-      function wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
+      function wrapText(contextLocal, text, marginLeft, marginTop, maxWidth, lineHeight) {
         var words = text.split(' ');
         var countWords = words.length;
         var line = '';
@@ -409,15 +411,16 @@
           var testLine = line + words[n] + ' ';
           var testWidth = context.measureText(testLine).width;
           if (testWidth > maxWidth) {
-            context.fillText(line, marginLeft, marginTop);
+            contextLocal.fillText(line, marginLeft, marginTop);
             line = words[n] + ' ';
             marginTop += lineHeight;
           }
-          else {
+          else
+          {
             line = testLine;
           }
         }
-        context.fillText(line, marginLeft, marginTop);
+        contextLocal.fillText(line, marginLeft, marginTop);
       }
 
       var maxWidth = 300; //размер поля, где выводится текст
@@ -427,22 +430,22 @@
       var text = ' ';
 
       switch (this.state.currentStatus) {
-        case Verdict.WIN:
-        text = 'Ты попал в кого-то файрболом. ' + 'Радуйся своей победе, ' + 'жестокий человек.';
-        wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-          break;
-        case Verdict.FAIL:
-          text = 'Ты проиграл. ' + 'Самое время взять реванш!';
+          case Verdict.WIN:
+          text = 'Ты попал в кого-то файрболом. ' + 'Радуйся своей победе, ' + 'жестокий человек.';
           wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-          break;
-        case Verdict.PAUSE:
-          text = 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.';
-          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-          break;
-        case Verdict.INTRO:
-          text = 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...';
-          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-          break;
+            break;
+          case Verdict.FAIL:
+            text = 'Ты проиграл. ' + 'Самое время взять реванш!';
+            wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+            break;
+          case Verdict.PAUSE:
+            text = 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.';
+            wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+            break;
+          case Verdict.INTRO:
+            text = 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...';
+            wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+            break;
       }
     },
 
