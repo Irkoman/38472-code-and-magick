@@ -410,12 +410,12 @@
         for (var n = 0; n < countWords; n++) {
           var testLine = line + words[n] + ' ';
           var testWidth = context.measureText(testLine).width;
-          if (testWidth > maxWidth) {
+          if (testWidth > maxWidth)
+          {
             contextLocal.fillText(line, marginLeft, marginTop);
             line = words[n] + ' ';
             marginTop += lineHeight;
-          }
-          else
+          } else
           {
             line = testLine;
           }
@@ -430,22 +430,22 @@
       var text = ' ';
 
       switch (this.state.currentStatus) {
-          case Verdict.WIN:
+        case Verdict.WIN:
           text = 'Ты попал в кого-то файрболом. ' + 'Радуйся своей победе, ' + 'жестокий человек.';
           wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-            break;
-          case Verdict.FAIL:
-            text = 'Ты проиграл. ' + 'Самое время взять реванш!';
-            wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-            break;
-          case Verdict.PAUSE:
-            text = 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.';
-            wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-            break;
-          case Verdict.INTRO:
-            text = 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...';
-            wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
-            break;
+          break;
+        case Verdict.FAIL:
+          text = 'Ты проиграл. ' + 'Самое время взять реванш!';
+          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          break;
+        case Verdict.PAUSE:
+          text = 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.';
+          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          break;
+        case Verdict.INTRO:
+          text = 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...';
+          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          break;
       }
     },
 
