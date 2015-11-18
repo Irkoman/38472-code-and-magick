@@ -378,48 +378,70 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.beginPath();
-      this.ctx.moveTo(330, 40);
-      this.ctx.lineTo(655, 40);
-      this.ctx.lineTo(655, 170);
-      this.ctx.lineTo(310, 185);
-      this.ctx.lineTo(330, 40);
-      this.ctx.closePath();
-      this.ctx.fill();
-      this.ctx.fillStyle = '#FFFFFF';
-      this.ctx.beginPath();
-      this.ctx.moveTo(320, 30);
-      this.ctx.lineTo(645, 30);
-      this.ctx.lineTo(645, 160);
-      this.ctx.lineTo(300, 175);
-      this.ctx.lineTo(320, 30);
-      this.ctx.closePath();
-      this.ctx.fill();
-      this.ctx.fillStyle = '#000000';
-      this.ctx.font = 'bold 16px PT Mono';
+      var context = this.ctx;
+
+      context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      context.beginPath();
+      context.moveTo(330, 40);
+      context.lineTo(660, 40);
+      context.lineTo(660, 170);
+      context.lineTo(310, 185);
+      context.lineTo(330, 40);
+      context.closePath();
+      context.fill();
+      context.fillStyle = '#FFFFFF';
+      context.beginPath();
+      context.moveTo(320, 30);
+      context.lineTo(650, 30);
+      context.lineTo(650, 160);
+      context.lineTo(300, 175);
+      context.lineTo(320, 30);
+      context.closePath();
+      context.fill();
+      context.fillStyle = '#000000';
+      context.font = 'bold 16px PT Mono';
+
+      function wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var countWords = words.length;
+        var line = '';
+        for (var n = 0; n < countWords; n++) {
+          var testLine = line + words[n] + ' ';
+          var testWidth = context.measureText(testLine).width;
+          if (testWidth > maxWidth) {
+            context.fillText(line, marginLeft, marginTop);
+            line = words[n] + ' ';
+            marginTop += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, marginLeft, marginTop);
+      }
+
+      var maxWidth = 300; //размер поля, где выводится текст
+      var lineHeight = 25;
+      var marginLeft = 340;
+      var marginTop = 70;
+      var text = ' ';
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this.ctx.fillText('Ты попал в кого-то файрболом.', 340, 65);
-          this.ctx.fillText('Радуйся своей победе,', 340, 85);
-          this.ctx.fillText('жестокий человек.', 340, 105);
+        text = 'Ты попал в кого-то файрболом. ' + 'Радуйся своей победе, ' + 'жестокий человек.';
+        wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
           break;
         case Verdict.FAIL:
-          this.ctx.fillText('Ты проиграл.', 340, 65);
-          this.ctx.fillText('Самое время взять реванш!', 340, 85);
+          text = 'Ты проиграл. ' + 'Самое время взять реванш!';
+          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
           break;
         case Verdict.PAUSE:
-          this.ctx.fillText('Игра на паузе.', 340, 65);
-          this.ctx.fillText('Как будешь готов,', 340, 85);
-          this.ctx.fillText('жми на пробел', 340, 105);
+          text = 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.';
+          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
           break;
         case Verdict.INTRO:
-          this.ctx.fillText('Я могу перемещаться по нажатию', 340, 65);
-          this.ctx.fillText('на стрелки, а также стрелять', 340, 85);
-          this.ctx.fillText('файрболом с помощью shift. ', 340, 105);
-          this.ctx.fillText('А сейчас жми на пробел,', 340, 125);
-          this.ctx.fillText('и игра начнётся...', 340, 145);
+          text = 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...';
+          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
           break;
       }
     },
