@@ -378,18 +378,59 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var context = this.ctx;
+
+      context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      context.beginPath();
+      context.moveTo(330, 40);
+      context.lineTo(660, 40);
+      context.lineTo(660, 170);
+      context.lineTo(310, 185);
+      context.lineTo(330, 40);
+      context.closePath();
+      context.fill();
+      context.fillStyle = '#FFFFFF';
+      context.beginPath();
+      context.moveTo(320, 30);
+      context.lineTo(650, 30);
+      context.lineTo(650, 160);
+      context.lineTo(300, 175);
+      context.lineTo(320, 30);
+      context.closePath();
+      context.fill();
+      context.fillStyle = '#000000';
+      context.font = 'bold 16px PT Mono';
+
+      function wrapText(someContext, text, marginLeft, marginTop, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var countWords = words.length;
+        var line = '';
+        for (var n = 0; n < countWords; n++) {
+          var testLine = line + words[n] + ' ';
+          var testWidth = context.measureText(testLine).width;
+          if (testWidth > maxWidth) {
+            someContext.fillText(line, marginLeft, marginTop);
+            line = words[n] + ' ';
+            marginTop += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        someContext.fillText(line, marginLeft, marginTop);
+      }
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          wrapText(context, 'Ты попал в кого-то файрболом. ' + 'Радуйся своей победе, ' + 'жестокий человек.', 340, 80, 300, 25);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          wrapText(context, 'Ты проиграл. ' + 'Самое время взять реванш!', 340, 90, 300, 25);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          wrapText(context, 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.', 340, 80, 300, 25);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          wrapText(context, 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...', 340, 70, 300, 25);
           break;
       }
     },
