@@ -381,6 +381,7 @@
 
     _drawPauseScreen: function() {
       var context = this.ctx;
+      var text = ' ';
 
       context.fillStyle = 'rgba(0, 0, 0, 0.7)';
       context.beginPath();
@@ -421,28 +422,22 @@
         contextLocal.fillText(line, marginLeft, marginTop);
       }
 
-      var maxWidth = 300; //размер поля, где выводится текст
-      var lineHeight = 25;
-      var marginLeft = 340;
-      var marginTop = 70;
-      var text = ' ';
-
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           text = 'Ты попал в кого-то файрболом. ' + 'Радуйся своей победе, ' + 'жестокий человек.';
-          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          wrapText(context, text, 340, 80, 300, 25);
           break;
         case Verdict.FAIL:
           text = 'Ты проиграл. ' + 'Самое время взять реванш!';
-          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          wrapText(context, text, 340, 90, 300, 25);
           break;
         case Verdict.PAUSE:
           text = 'Игра на паузе. ' + 'Как будешь готов, ' + 'жми на пробел.';
-          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          wrapText(context, text, 340, 80, 300, 25);
           break;
         case Verdict.INTRO:
           text = 'Я перемещаюсь по нажатию ' + 'на стрелки и стреляю ' + 'файрболом с помощью shift. ' + 'Скорее жми на пробел, ' + 'и игра начнётся...';
-          wrapText(context, text, marginLeft, marginTop, maxWidth, lineHeight);
+          wrapText(context, text, 340, 70, 300, 25);
           break;
       }
     },
