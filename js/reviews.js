@@ -40,7 +40,7 @@
       element.classList.add('review-load-failure');
     };
 
-    authorPhoto.src = '/' + data.author.picture;
+    authorPhoto.src = data.author.picture;
 
     return element;
   }
