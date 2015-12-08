@@ -3,9 +3,12 @@
 (function() {
   var container = document.querySelector('.reviews-list');
   var filters = document.querySelector('.reviews-filter');
+  var moreReviews = document.querySelector('.reviews-controls-more');
   var activeFilter = 'reviews-all';
   var reviews = [];
   var filteredReviews = [];
+  var currentPage = 0;
+  var PAGE_SIZE = 3;
   var IMAGE_TIMEOUT = 10000;
 
   filters.addEventListener('click', function(evt) {
@@ -17,17 +20,35 @@
 
   filters.classList.add('invisible');
 
+  moreReviews.onclick = function() {
+    if (currentPage < Math.ceil(filteredReviews.length / PAGE_SIZE)) {
+      renderReviews(filteredReviews, ++currentPage);
+    }
+  };
+
   getReviews();
 
   /**
    * Отрисовка списка отзывов
-   * @param {Array.<Object>} reviews
+   * @param {Array.<Object>} reviewsToRender
+   * @param {number} pageNumber
+   * @param {boolean=} replace
    */
-  function renderReviews(reviewsToRender) {
-    container.innerHTML = '';
-    var fragment = document.createDocumentFragment();
+  function renderReviews(reviewsToRender, pageNumber, replace) {
+    if (replace) {
+      container.innerHTML = '';
+    }
 
-    reviewsToRender.forEach(function(review) {
+    var fragment = document.createDocumentFragment();
+    var from = pageNumber * PAGE_SIZE;
+    var to = from + PAGE_SIZE;
+    var pageReviews = reviewsToRender.slice(from, to);
+
+    if (reviews.length > 3) {
+      moreReviews.classList.remove('invisible');
+    }
+
+    pageReviews.forEach(function(review) {
       var element = getElementFromTemplate(review);
       fragment.appendChild(element);
     });
@@ -86,7 +107,7 @@
         break;
     }
 
-    renderReviews(filteredReviews);
+    renderReviews(filteredReviews, 0, replace);
     activeFilter = id;
   }
 
@@ -103,7 +124,7 @@
       var rawData = evt.target.response;
       var loadedReviews = JSON.parse(rawData);
       updateLoadedReviews(loadedReviews);
-      renderReviews(loadedReviews);
+      renderReviews(loadedReviews, 0);
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
     };
 
