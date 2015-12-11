@@ -3,13 +3,13 @@
 (function() {
   var container = document.querySelector('.reviews-list');
   var filters = document.querySelector('.reviews-filter');
-  var moreReviews = document.querySelector('.reviews-controls-more');
   var activeFilter = 'reviews-all';
   var reviews = [];
   var filteredReviews = [];
   var currentPage = 0;
   var PAGE_SIZE = 3;
   var IMAGE_TIMEOUT = 10000;
+  var moreReviews = document.querySelector('.reviews-controls-more');
 
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
@@ -107,7 +107,7 @@
         break;
     }
 
-    renderReviews(filteredReviews, 0, replace);
+    renderReviews(filteredReviews, 0, true);
     activeFilter = id;
   }
 
