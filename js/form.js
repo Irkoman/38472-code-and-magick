@@ -36,6 +36,7 @@
     if (parseInt(reviewMarkChecked.value, 10) < 3) {
       reviewText.required = true;
       if (reviewText.value.length < 1) {
+        document.querySelector('.review-fields').style.display = 'inline-block';
         needWriteText.style.display = 'inline-block';
         return true;
       }
@@ -45,7 +46,10 @@
     }
 
     if (reviewName.value.length < 1) {
+      needWriteName.style.display = 'inline-block';
       return true;
+    } else {
+      needWriteName.style.display = 'none';
     }
 
     reviewSubmitButton.disabled = false;

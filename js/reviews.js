@@ -20,9 +20,8 @@
 
   filters.classList.add('invisible');
 
-  moreReviews.addEventListener('click', function(evt) {
-    console.log(filteredReviews);
-    if (currentPage < Math.ceil(filteredReviews.length / PAGE_SIZE)) {
+  moreReviews.addEventListener('click', function() {
+    if (currentPage <= Math.ceil(filteredReviews.length / PAGE_SIZE)) {
       renderReviews(filteredReviews, ++currentPage);
     }
   });
@@ -45,14 +44,12 @@
     var to = from + PAGE_SIZE;
     var pageReviews = reviewsToRender.slice(from, to);
 
-    if (reviews.length > 3) {
-      moreReviews.classList.remove('invisible');
-    }
-
     pageReviews.forEach(function(review, index) {
       var element = getElementFromTemplate(review);
       fragment.appendChild(element);
-
+      if (index === pageReviews.length - 1) {
+        moreReviews.classList.remove('invisible');
+      }
     });
 
     container.appendChild(fragment);
@@ -68,8 +65,7 @@
     if (activeFilter === id) {
       return;
     }
-
-    filteredReviews = reviews.slice(0); // Копирование массива
+    filteredReviews = reviews.slice(0);
 
     switch (id) {
       case 'reviews-all':
@@ -111,6 +107,7 @@
 
     renderReviews(filteredReviews, 0, true);
     activeFilter = id;
+    currentPage = 0;
   }
 
   /**
@@ -123,9 +120,9 @@
 
     xhr.onload = function(evt) {
       var rawData = evt.target.response;
-      var loadedReviews = JSON.parse(rawData);
-      filteredReviews = loadedReviews.slice(0);
-      renderReviews(loadedReviews, 0);
+      reviews = JSON.parse(rawData);
+      filteredReviews = reviews.slice(0);
+      renderReviews(reviews, 0);
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
     };
 
