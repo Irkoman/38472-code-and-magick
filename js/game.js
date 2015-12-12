@@ -725,4 +725,23 @@
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+  var scrollTimeout;
+
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      var clouds = document.querySelector('.header-clouds');
+      var demo = document.querySelector('.demo');
+      var scrolled = window.pageYOffset || document.body.scrollTop;
+      var viewportSize = window.innerHeight;
+
+      if (clouds.getBoundingClientRect().bottom >= 0) {
+        clouds.style.backgroundPosition = '-' + scrolled + 'px 0px';
+      }
+      if (demo.getBoundingClientRect().bottom >= 0) {
+        game.setGameStatus(window.Game.Verdict.PAUSE);
+      }
+    }, 100);
+  });
 })();
