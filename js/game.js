@@ -734,12 +734,11 @@
       var clouds = document.querySelector('.header-clouds');
       var demo = document.querySelector('.demo');
       var scrolled = window.pageYOffset || document.body.scrollTop;
-      var viewportSize = window.innerHeight;
 
       if (clouds.getBoundingClientRect().bottom >= 0) {
         clouds.style.backgroundPosition = '-' + scrolled + 'px 0px';
       }
-      if (demo.getBoundingClientRect().bottom >= 0) {
+      if (demo.getBoundingClientRect().bottom <= 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
       }
     }, 100);
