@@ -20,11 +20,12 @@
 
   filters.classList.add('invisible');
 
-  moreReviews.onclick = function() {
+  moreReviews.addEventListener('click', function(evt) {
+    console.log(filteredReviews);
     if (currentPage < Math.ceil(filteredReviews.length / PAGE_SIZE)) {
       renderReviews(filteredReviews, ++currentPage);
     }
-  };
+  });
 
   getReviews();
 
@@ -48,9 +49,10 @@
       moreReviews.classList.remove('invisible');
     }
 
-    pageReviews.forEach(function(review) {
+    pageReviews.forEach(function(review, index) {
       var element = getElementFromTemplate(review);
       fragment.appendChild(element);
+
     });
 
     container.appendChild(fragment);
@@ -118,12 +120,11 @@
     var xhr = new XMLHttpRequest();
     document.querySelector('.reviews').classList.add('reviews-list-loading');
     xhr.open('GET', 'data/reviews.json');
-    xhr.timeout = 10000;
 
     xhr.onload = function(evt) {
       var rawData = evt.target.response;
       var loadedReviews = JSON.parse(rawData);
-      updateLoadedReviews(loadedReviews);
+      filteredReviews = loadedReviews.slice(0);
       renderReviews(loadedReviews, 0);
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
     };
@@ -195,15 +196,5 @@
     filters.classList.remove('invisible');
 
     return element;
-  }
-
-   /**
-   * Сохранение списка отзывов в переменную reviews, обновление счётчика отзывов
-   * и вызов фильтрации и отрисовки.
-   * @param {Array.<Object>} loadedReviews
-   */
-  function updateLoadedReviews(loadedReviews) {
-    reviews = loadedReviews;
-    setActiveFilter(activeFilter, true);
   }
 })();
