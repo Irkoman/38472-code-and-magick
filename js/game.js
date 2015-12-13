@@ -737,6 +737,7 @@
 
       if (clouds.getBoundingClientRect().bottom >= 0) {
         clouds.style.backgroundPosition = '-' + scrolled + 'px 0px';
+        clouds.style.transition = 'background-position 5s linear';
       }
       if (demo.getBoundingClientRect().bottom <= 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
