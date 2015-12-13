@@ -1,3 +1,5 @@
+/* global Review: true */
+
 'use strict';
 
 (function() {
@@ -8,7 +10,6 @@
   var filteredReviews = [];
   var currentPage = 0;
   var PAGE_SIZE = 3;
-  var IMAGE_TIMEOUT = 10000;
   var moreReviews = document.querySelector('.reviews-controls-more');
 
   filters.addEventListener('click', function(evt) {
@@ -45,8 +46,9 @@
     var pageReviews = reviewsToRender.slice(from, to);
 
     pageReviews.forEach(function(review, index) {
-      var element = getElementFromTemplate(review);
-      fragment.appendChild(element);
+      var reviewElement = new Review(review);
+      reviewElement.render();
+      fragment.appendChild(reviewElement.element);
       if (index === pageReviews.length - 1) {
         moreReviews.classList.remove('invisible');
       }
@@ -137,61 +139,5 @@
     };
 
     xhr.send();
-  }
-
-  function getElementFromTemplate(data) {
-    var template = document.querySelector('#review-template');
-
-    if ('content' in template) {
-      var element = template.content.children[0].cloneNode(true);
-    } else {
-      element = template.children[0].cloneNode(true);
-    }
-
-    element.querySelector('.review-text').textContent = data.description;
-
-    var reviewRating = element.querySelector('.review-rating');
-    switch (data.rating) {
-      case 1:
-        reviewRating.classList.add('review-rating-one');
-        break;
-      case 2:
-        reviewRating.classList.add('review-rating-two');
-        break;
-      case 3:
-        reviewRating.classList.add('review-rating-three');
-        break;
-      case 4:
-        reviewRating.classList.add('review-rating-four');
-        break;
-      case 5:
-        reviewRating.classList.add('review-rating-five');
-        break;
-    }
-
-    var authorPhoto = new Image(124, 124);
-
-    var imageLoadTimeout = setTimeout(function() {
-      authorPhoto.src = '';
-      element.classList.add('review-load-failure');
-    }, IMAGE_TIMEOUT);
-
-    authorPhoto.onload = function() {
-      clearTimeout(imageLoadTimeout);
-      element.replaceChild(authorPhoto, element.querySelector('.review-author'));
-    };
-
-    authorPhoto.onerror = function() {
-      clearTimeout(imageLoadTimeout);
-      element.classList.add('review-load-failure');
-    };
-
-    authorPhoto.src = data.author.picture;
-    authorPhoto.title = data.author.name;
-    authorPhoto.classList.add('review-author');
-
-    filters.classList.remove('invisible');
-
-    return element;
   }
 })();

@@ -45,11 +45,11 @@
       var imageLoadTimeout = setTimeout(function() {
         authorPhoto.src = '';
         this.element.classList.add('review-load-failure');
-      }, IMAGE_TIMEOUT);
+      }.bind(this), IMAGE_TIMEOUT);
 
       authorPhoto.onload = function() {
         clearTimeout(imageLoadTimeout);
-        this.element.replaceChild(authorPhoto, element.querySelector('.review-author'));
+        this.element.replaceChild(authorPhoto, this.element.querySelector('.review-author'));
       }.bind(this);
 
       authorPhoto.onerror = function() {
