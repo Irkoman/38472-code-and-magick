@@ -1,4 +1,4 @@
-/* global Review: true */
+/* global Review: true, Gallery: true */
 
 'use strict';
 
@@ -11,6 +11,16 @@
   var currentPage = 0;
   var PAGE_SIZE = 3;
   var moreReviews = document.querySelector('.reviews-controls-more');
+  var gallery = new Gallery();
+  var photogallery = document.querySelector('.photogallery');
+
+  photogallery.addEventListener('click', function(evt) {
+    var clickedElement = evt.target;
+    if (clickedElement.tagName === 'IMG') {
+      evt.preventDefault();
+      gallery.show();
+    }
+  });
 
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
