@@ -48,13 +48,13 @@
     var to = from + PAGE_SIZE;
     var pageReviews = reviewsToRender.slice(from, to);
 
-    pageReviews.forEach(function(review, index) {
-      var reviewElement = new Review(review);
-      reviewElement.render();
-      fragment.appendChild(reviewElement.element);
-      if (index === pageReviews.length - 1) {
-        moreReviews.classList.remove('invisible');
-      }
+    if (reviews.length > 3) {
+      moreReviews.classList.remove('invisible');
+    }
+
+    pageReviews.forEach(function(review) {
+      var element = getElementFromTemplate(review);
+      fragment.appendChild(element);
     });
 
     container.appendChild(fragment);
@@ -70,7 +70,8 @@
     if (activeFilter === id) {
       return;
     }
-    filteredReviews = reviews.slice(0);
+
+    filteredReviews = reviews.slice(0); // Копирование массива
 
     switch (id) {
       case 'reviews-all':
