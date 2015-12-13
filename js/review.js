@@ -62,7 +62,7 @@
       authorPhoto.classList.add('review-author');
 
       filters.classList.remove('invisible');
-    }
+    };
   }
 
   window.Review = Review;
