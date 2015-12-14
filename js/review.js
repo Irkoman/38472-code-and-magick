@@ -1,9 +1,14 @@
+/**
+ * @fileoverview Файл предназначен для описания конструктора Review.
+ * @author Irina Smirnova (smirnovapr@mail.ru)
+ */
+
 'use strict';
 
 (function() {
-  /*
-   *  @param {Object} data
-   *  @constructor
+  /**
+   * @param {Object} data
+   * @constructor
    */
   function Review(data) {
     this._data = data;
@@ -11,6 +16,8 @@
     Review.prototype.render = function() {
       var template = document.querySelector('#review-template');
       var filters = document.querySelector('.reviews-filter');
+
+      /** @const {number} */
       var IMAGE_TIMEOUT = 10000;
 
       if ('content' in template) {
@@ -40,6 +47,7 @@
           break;
       }
 
+      /** @type {Image} */
       var authorPhoto = new Image(124, 124);
 
       var imageLoadTimeout = setTimeout(function() {

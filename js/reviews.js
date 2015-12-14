@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Основной файл, отвечающий за отрисовку и фильтрацию отзывов.
+ * "Управляет" также конструкторами Review (review.js) и Gallery (gallery.js).
+ * @author Irina Smirnova (smirnovapr@mail.ru)
+ */
+
 /* global Review: true, Gallery: true */
 
 'use strict';
@@ -6,14 +12,24 @@
   var container = document.querySelector('.reviews-list');
   var filters = document.querySelector('.reviews-filter');
   var activeFilter = 'reviews-all';
+  var moreReviews = document.querySelector('.reviews-controls-more');
+  var photogallery = document.querySelector('.photogallery');
   var reviews = [];
   var filteredReviews = [];
   var currentPage = 0;
-  var PAGE_SIZE = 3;
-  var moreReviews = document.querySelector('.reviews-controls-more');
-  var gallery = new Gallery();
-  var photogallery = document.querySelector('.photogallery');
 
+  /** @const {number} */
+  var PAGE_SIZE = 3;
+
+  /** @type {Gallery} */
+  var gallery = new Gallery();
+
+  /**
+   * Добавляем фотогалерее слушатель событий:
+   * при клике по любому из "скриншотов игры"
+   * вызывается метод объекта Gallery для показа галереи.
+   * @param {Event} evt
+   */
   photogallery.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
     if (clickedElement.tagName === 'IMG') {
@@ -22,6 +38,11 @@
     }
   });
 
+  /**
+   * Слушаем события по клику на фильтры,
+   * чтобы установить нужный activeFilter.
+   * @param {Event} evt
+   */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
     if (clickedElement.name === 'reviews') {
@@ -31,6 +52,11 @@
 
   filters.classList.add('invisible');
 
+  /**
+   * Обработчик событий для кнопки "Ещё отзывы":
+   * при клике по ней отображаем следующую
+   * страницу отзывов (если она имеется).
+   */
   moreReviews.addEventListener('click', function() {
     if (currentPage <= Math.ceil(filteredReviews.length / PAGE_SIZE)) {
       renderReviews(filteredReviews, ++currentPage);
@@ -59,6 +85,8 @@
     var pageReviews = reviewsToRender.slice(from, to);
 
     pageReviews.forEach(function(review, index) {
+
+      /** @type {Review} */
       var reviewElement = new Review(review);
       reviewElement.render();
       fragment.appendChild(reviewElement.element);
@@ -73,8 +101,6 @@
   /**
    * Установка выбранного фильтра
    * @param {string} id
-   * @param {boolean=} force Флаг, при котором игнорируется проверка
-   *     на повторное присвоение фильтра.
    */
   function setActiveFilter(id) {
     if (activeFilter === id) {

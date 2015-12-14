@@ -1,8 +1,15 @@
+/**
+ * @fileoverview Файл предназначен для описания конструктора Gallery
+ * и основных методов, которыми обладает прототип (показ и сокрытие галереи).
+ * @author Irina Smirnova (smirnovapr@mail.ru)
+ */
+
 'use strict';
 
 (function() {
-  /*
-   *  @constructor
+  /**
+   * Конструктор галереи
+   * @constructor
    */
   var Gallery = function() {
     this.element = document.querySelector('.overlay-gallery');
@@ -37,6 +44,11 @@
     document.removeEventListener('keydown', this._onEscapeButtonClick);
   };
 
+  /**
+   * Обработчики событий по клику на кнопки ("влево", "вправо", "закрыть"),
+   * а также по нажатию на клавишу Escape.
+   * @param {Event} evt
+   */
   Gallery.prototype._onLeftButtonClick = function() {
 
   };
