@@ -63,6 +63,7 @@
       needWriteName.style.display = 'inline-block';
       return true;
     } else {
+      reviewName.required = false;
       needWriteName.style.display = 'none';
     }
 
