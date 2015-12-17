@@ -731,6 +731,9 @@
   var cloudsMoving = true;
   var demoPaused = false;
 
+  /**
+   * Слушатель для события scroll
+   */
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     var clouds = document.querySelector('.header-clouds');
@@ -744,6 +747,13 @@
       game.setGameStatus(window.Game.Verdict.PAUSE);
     }
 
+    /**
+     * Устанавливаем таймаут: каждые 100ms проверяем, видны ли
+     * пользователю блоки с облаками и демо игры. Если да - выполняем
+     * действия для cloudsMoving и demoPaused.
+     * @function
+     * @return {boolean}
+     */
     scrollTimeout = setTimeout(function() {
       if (clouds.getBoundingClientRect().bottom > 0) {
         cloudsMoving = true;

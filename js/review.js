@@ -7,13 +7,21 @@
 
 (function() {
   /**
+   * Конструктор объекта Review
    * @param {Object} data
    * @constructor
    */
   function Review(data) {
+    /**
+     * Сохранение аргумента data в приватном свойстве _data
+     * @private
+     */
     this._data = data;
   }
 
+  /**
+   * Метод render для отрисовки элемента отзыва в списке
+   */
   Review.prototype.render = function() {
     var template = document.querySelector('#review-template');
     var filters = document.querySelector('.reviews-filter');
@@ -56,11 +64,13 @@
       this.element.classList.add('review-load-failure');
     }.bind(this), IMAGE_TIMEOUT);
 
+    /** Обработчик события onload (успешная подгрузка фото) */
     authorPhoto.onload = function() {
       clearTimeout(imageLoadTimeout);
       this.element.replaceChild(authorPhoto, this.element.querySelector('.review-author'));
     }.bind(this);
 
+    /** Обработчик события onerror (на случай ошибки при подгрузке фото) */
     authorPhoto.onerror = function() {
       clearTimeout(imageLoadTimeout);
       this.element.classList.add('review-load-failure');

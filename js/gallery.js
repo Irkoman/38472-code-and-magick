@@ -8,7 +8,7 @@
 
 (function() {
   /**
-   * Конструктор галереи
+   * Конструктор объекта Gallery
    * @constructor
    */
   var Gallery = function() {
@@ -23,7 +23,8 @@
   };
 
   /**
-   * Показ галереи
+   * Показ галереи. Добавляем в метод
+   * подписки на события, которые отслеживает галерея
    */
   Gallery.prototype.show = function() {
     this.element.classList.remove('invisible');
@@ -34,7 +35,8 @@
   };
 
   /**
-   * Сокрытие галереи
+   * Сокрытие галереи. Убираем подписки на события
+   * (нет необходимости их прослушивать, когда галерея закрыта)
    */
   Gallery.prototype.hide = function() {
     this.element.classList.add('invisible');

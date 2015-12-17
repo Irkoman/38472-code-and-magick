@@ -72,6 +72,10 @@
    * @param {boolean=} replace
    */
   function renderReviews(reviewsToRender, pageNumber, replace) {
+    /**
+     * При фильтрации (replace === true) удаляем каждый из элементов
+     * через вызов removeChild у родительского блока.
+     */
     if (replace) {
       var renderedElements = container.querySelectorAll('.review');
       [].forEach.call(renderedElements, function(el) {
@@ -86,7 +90,7 @@
 
     pageReviews.forEach(function(review, index) {
 
-      /** @type {Review} */
+      /** @type {Review} reviewElement */
       var reviewElement = new Review(review);
       reviewElement.render();
       fragment.appendChild(reviewElement.element);
@@ -107,7 +111,8 @@
       return;
     }
 
-    filteredReviews = reviews.slice(0); // Копирование массива
+    /** Копирование массива */
+    filteredReviews = reviews.slice(0);
 
     switch (id) {
       case 'reviews-all':
@@ -156,10 +161,15 @@
    * Загрузка списка отзывов
    */
   function getReviews() {
+    /** @type {XMLHttpRequest} xhr */
     var xhr = new XMLHttpRequest();
     document.querySelector('.reviews').classList.add('reviews-list-loading');
     xhr.open('GET', 'data/reviews.json');
 
+    /**
+     * Обработчик события onload (данные успешно загружены)
+     * @param {Event} evt
+     */
     xhr.onload = function(evt) {
       var rawData = evt.target.response;
       reviews = JSON.parse(rawData);
@@ -168,11 +178,13 @@
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
     };
 
+    /** Обработчик события onerror */
     xhr.onerror = function() {
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
       document.querySelector('.reviews').classList.add('reviews-load-failure');
     };
 
+    /** Обработчик события ontimeout */
     xhr.ontimeout = function() {
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
       document.querySelector('.reviews').classList.add('reviews-load-failure');

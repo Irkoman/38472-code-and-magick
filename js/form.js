@@ -42,6 +42,7 @@
 
   /**
    * Валидация формы
+   * @function
    */
   function formValid() {
     reviewSubmitButton.disabled = true;
@@ -80,6 +81,9 @@
     reviewMark[i].onclick = formValid;
   }
 
+  /**
+   * Обработчик события onchange: отслеживаем изменения в поле "Имя"
+   */
   reviewName.onchange = function() {
     if (reviewName.value.length > 1) {
       needWriteName.style.display = 'none';
@@ -90,6 +94,9 @@
     formValid();
   };
 
+  /**
+   * Обработчик события onchange: отслеживаем изменения в поле "Отзыв"
+   */
   reviewText.onchange = function() {
     formValid();
     if (reviewText.value.length > 1) {
@@ -111,7 +118,7 @@
     evt.preventDefault();
     var dateToExpire = +Date.now() + 225 * 24 * 60 * 60 * 1000;
 
-    /** @type {Date} */
+    /** @type {Date} formattedDate */
     var formattedDate = new Date(dateToExpire).toUTCString();
 
     document.cookie = 'user =' + reviewName.value + '; expires =' + formattedDate;
