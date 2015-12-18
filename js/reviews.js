@@ -16,6 +16,7 @@
   var photogallery = document.querySelector('.photogallery');
   var reviews = [];
   var filteredReviews = [];
+  var renderedElements = [];
   var currentPage = 0;
 
   /** @const {number} */
@@ -77,10 +78,10 @@
      * через вызов removeChild у родительского блока.
      */
     if (replace) {
-      var renderedElements = container.querySelectorAll('.review');
-      [].forEach.call(renderedElements, function(el) {
-        container.removeChild(el);
-      });
+      var el;
+      while ((el = renderedElements.shift())) {
+        container.removeChild(el.element);
+      }
     }
 
     var fragment = document.createDocumentFragment();
@@ -88,8 +89,7 @@
     var to = from + PAGE_SIZE;
     var pageReviews = reviewsToRender.slice(from, to);
 
-    pageReviews.forEach(function(review, index) {
-
+    renderedElements = renderedElements.concat(pageReviews.map(function(review, index) {
       /** @type {Review} reviewElement */
       var reviewElement = new Review(review);
       reviewElement.render();
@@ -97,7 +97,9 @@
       if (index === pageReviews.length - 1) {
         moreReviews.classList.remove('invisible');
       }
-    });
+
+      return reviewElement;
+    }));
 
     container.appendChild(fragment);
   }
