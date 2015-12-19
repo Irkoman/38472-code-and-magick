@@ -4,7 +4,7 @@
  * @author Irina Smirnova (smirnovapr@mail.ru)
  */
 
-/* global Review: true, Gallery: true */
+/* global Review: true*/
 
 'use strict';
 
@@ -13,7 +13,6 @@
   var filters = document.querySelector('.reviews-filter');
   var activeFilter = 'reviews-all';
   var moreReviews = document.querySelector('.reviews-controls-more');
-  var photogallery = document.querySelector('.photogallery');
   var reviews = [];
   var filteredReviews = [];
   var renderedElements = [];
@@ -21,23 +20,6 @@
 
   /** @const {number} */
   var PAGE_SIZE = 3;
-
-  /** @type {Gallery} */
-  var gallery = new Gallery();
-
-  /**
-   * Добавляем фотогалерее слушатель событий:
-   * при клике по любому из "скриншотов игры"
-   * вызывается метод объекта Gallery для показа галереи.
-   * @param {Event} evt
-   */
-  photogallery.addEventListener('click', function(evt) {
-    var clickedElement = evt.target;
-    if (clickedElement.tagName === 'IMG') {
-      evt.preventDefault();
-      gallery.show();
-    }
-  });
 
   /**
    * Слушаем события по клику на фильтры,
@@ -74,8 +56,8 @@
    */
   function renderReviews(reviewsToRender, pageNumber, replace) {
     /**
-     * При фильтрации (replace === true) удаляем каждый из элементов
-     * через вызов removeChild у родительского блока.
+     * При фильтрации (replace === true) удаляем компоненты,
+     * которые были предварительно сохранены в массиве renderedElements
      */
     if (replace) {
       var el;
@@ -89,6 +71,10 @@
     var to = from + PAGE_SIZE;
     var pageReviews = reviewsToRender.slice(from, to);
 
+    /**
+     * Создание компонентов с помощью конструктора Review
+     * и сохранение их в массив renderedElements
+     */
     renderedElements = renderedElements.concat(pageReviews.map(function(review, index) {
       /** @type {Review} reviewElement */
       var reviewElement = new Review(review);

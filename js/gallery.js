@@ -35,6 +35,39 @@
   };
 
   /**
+   * Метод, который принимает на вход массив объектов Photo и сохраняет его.
+   * @param {Array} photos
+   */
+  Gallery.prototype.setPictures = function(photos) {
+    this._photos = photos;
+  };
+
+  /**
+   * Метод, который берёт фотографию с переданным индексом из массива photos
+   * и отрисовывает её в галерее
+   * @param {number} index
+   */
+  Gallery.prototype.setCurrentPicture = function(index) {
+    var currentImage = this.element.querySelector('.overlay-gallery-preview img');
+    var previewContainer = this.element.querySelector('.overlay-gallery-preview');
+    var currentNumber = this.element.querySelector('.preview-number-current');
+    var totalNumber = this.element.querySelector('.preview-number-total');
+
+    /**
+     * Перед отрисовкой изображения освобождаем место от предыдущего.
+     */
+    if (currentImage) {
+      previewContainer.removeChild(currentImage);
+    }
+    /** @type {Image} */
+    var image = new Image();
+    previewContainer.appendChild(image);
+    image.src = this._photos[index].getSrc();
+    currentNumber.innerHTML = '' + (index + 1);
+    totalNumber.innerHTML = '' + this._photos.length;
+  };
+
+  /**
    * Сокрытие галереи. Убираем подписки на события
    * (нет необходимости их прослушивать, когда галерея закрыта)
    */
