@@ -5,7 +5,7 @@
  * @author Irina Smirnova (smirnovapr@mail.ru)
  */
 
-/* global Photo: true, Gallery: true*/
+/* global Photo: true, Gallery: true */
 
 'use strict';
 
@@ -16,6 +16,7 @@
    */
   var photoData = Array.prototype.slice.call(document.querySelectorAll('.photogallery img'), 0);
   var photos = [];
+  var index = 0;
 
   /**
    * Для каждой фотки создаётся объект Photo; все они сохраняются в массив photos
@@ -23,7 +24,6 @@
   photos = photos.concat(photoData.map(function() {
     /** @type {Photo} photoElement */
     var photoElement = new Photo();
-    var index = 0;
     photoElement.setSrc(photoData[index].src);
     index++;
     return photoElement;

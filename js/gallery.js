@@ -16,6 +16,7 @@
     this._leftButton = this.element.querySelector('.overlay-gallery-control-left');
     this._rightButton = this.element.querySelector('.overlay-gallery-control-right');
     this._closeButton = this.element.querySelector('.overlay-gallery-close');
+    this._currentIndex = 0;
     this._onLeftButtonClick = this._onLeftButtonClick.bind(this);
     this._onRightButtonClick = this._onRightButtonClick.bind(this);
     this._onCloseClick = this._onCloseClick.bind(this);
@@ -59,12 +60,16 @@
     if (currentImage) {
       previewContainer.removeChild(currentImage);
     }
+
+    this._currentIndex = index;
+
     /** @type {Image} */
     var image = new Image();
     previewContainer.appendChild(image);
     image.src = this._photos[index].getSrc();
     currentNumber.innerHTML = '' + (index + 1);
     totalNumber.innerHTML = '' + this._photos.length;
+
   };
 
   /**
@@ -80,22 +85,34 @@
   };
 
   /**
-   * Обработчики событий по клику на кнопки ("влево", "вправо", "закрыть"),
-   * а также по нажатию на клавишу Escape.
-   * @param {Event} evt
+   * По клику на кнопку "влево" переключаемся на предыдущую картинку, если она есть.
    */
   Gallery.prototype._onLeftButtonClick = function() {
-
+    if ((this._currentIndex - 1) >= 0) {
+      this.setCurrentPicture(this._currentIndex - 1);
+    }
   };
 
+  /**
+   * По клику на кнопку "вправо" - на следующую по порядку (если это возможно).
+   */
   Gallery.prototype._onRightButtonClick = function() {
-
+    if ((this._currentIndex + 1) < this._photos.length) {
+      this.setCurrentPicture(this._currentIndex + 1);
+    }
   };
 
+  /**
+   * По клику на кнопку "закрыть" - сокрытие галереи.
+   */
   Gallery.prototype._onCloseClick = function() {
     this.hide();
   };
 
+  /**
+   * Обработчик события по нажатию на Escape.
+   * @param {Event} evt
+   */
   Gallery.prototype._onEscapeButtonClick = function(evt) {
     if (evt.keyCode === 27) {
       this.hide();
@@ -104,3 +121,8 @@
 
   window.Gallery = Gallery;
 })();
+
+
+
+
+
