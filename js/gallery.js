@@ -117,6 +117,12 @@
     if (evt.keyCode === 27) {
       this.hide();
     }
+    if (event.keyCode === 37) {
+      this._onLeftButtonClick();
+    }
+    if (event.keyCode === 39) {
+      this._onRightButtonClick();
+    }
   };
 
   window.Gallery = Gallery;
