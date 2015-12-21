@@ -21,6 +21,7 @@
     this._onRightButtonClick = this._onRightButtonClick.bind(this);
     this._onCloseClick = this._onCloseClick.bind(this);
     this._onEscapeButtonClick = this._onEscapeButtonClick.bind(this);
+    this._onHashChange = this._onHashChange.bind(this);
     window.addEventListener('hashchange', this._onHashChange);
     this.restoreFromHash();
   };
@@ -105,7 +106,7 @@
     if ((this._currentIndex - 1) >= 0) {
       this.setCurrentPicture(this._currentIndex - 1);
     }
-    window.location.hash = 'photo/img' + _currentIndex;
+    window.location.hash = 'photo/' + _currentIndex;
   };
 
   /**
@@ -115,7 +116,7 @@
     if ((this._currentIndex + 1) < this._photos.length) {
       this.setCurrentPicture(this._currentIndex + 1);
     }
-    window.location.hash = 'photo/img' + _currentIndex;
+    window.location.hash = 'photo/' + _currentIndex;
   };
 
   /**
@@ -145,18 +146,18 @@
    * В зависимости от содержимого хэша показываем/прячем галерею.
    */
   Gallery.prototype._onHashChange = function() {
-    //this.restoreFromHash();
+    this.restoreFromHash();
   }
 
   Gallery.prototype.restoreFromHash = function() {
-    // var hash = window.location.hash.match(/#photo\/(\S+)/);
+    var hash = window.location.hash.match(/#photo\/(\S+)/);
     // if (hash.length > 1) {
     //   var index = hash[1];
-    //   gallery.setCurrentPicture(index);
-    //   gallery.show();
+    //   this.setCurrentPicture(index);
+    //    this.show();
     // } else {
     //   this.hide();
-    // }
+   // }
   }
 
   window.Gallery = Gallery;
