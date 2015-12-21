@@ -106,7 +106,7 @@
     if ((this._currentIndex - 1) >= 0) {
       this.setCurrentPicture(this._currentIndex - 1);
     }
-    window.location.hash = 'photo/' + _currentIndex;
+    window.location.hash = 'photo/' + this._currentIndex;
   };
 
   /**
@@ -116,7 +116,7 @@
     if ((this._currentIndex + 1) < this._photos.length) {
       this.setCurrentPicture(this._currentIndex + 1);
     }
-    window.location.hash = 'photo/' + _currentIndex;
+    window.location.hash = 'photo/' + this._currentIndex;
   };
 
   /**
@@ -147,7 +147,7 @@
    */
   Gallery.prototype._onHashChange = function() {
     this.restoreFromHash();
-  }
+  };
 
   Gallery.prototype.restoreFromHash = function() {
     var hash = window.location.hash.match(/#photo\/(\S+)/);
@@ -158,7 +158,7 @@
     // } else {
     //   this.hide();
    // }
-  }
+  };
 
   window.Gallery = Gallery;
 })();

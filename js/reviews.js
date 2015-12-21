@@ -83,7 +83,6 @@
       if (index === pageReviews.length - 1) {
         moreReviews.classList.remove('invisible');
       }
-
       return reviewElement;
     }));
 
@@ -95,9 +94,6 @@
    * @param {string} id
    */
   function setActiveFilter(id) {
-    if (activeFilter === id) {
-      return;
-    }
 
     /** Копирование массива */
     filteredReviews = reviews.slice(0);
@@ -163,8 +159,8 @@
     xhr.onload = function(evt) {
       var rawData = evt.target.response;
       reviews = JSON.parse(rawData);
-      filteredReviews = reviews.slice(0);
-      renderReviews(reviews, 0);
+      filteredReviews = reviews;
+      setActiveFilter(activeFilter);
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
     };
 
