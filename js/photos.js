@@ -44,6 +44,7 @@
 
   photogallery.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
+
     if (clickedElement.tagName === 'IMG') {
       evt.preventDefault();
       for (var i = 0; i < elements.length; i++) {
@@ -52,7 +53,7 @@
           break;
         }
       }
-      gallery.show();
+      window.location.hash = 'photo/img' + clickedElement.src.split('/img').slice(1);
     }
   });
 })();

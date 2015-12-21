@@ -21,6 +21,8 @@
     this._onRightButtonClick = this._onRightButtonClick.bind(this);
     this._onCloseClick = this._onCloseClick.bind(this);
     this._onEscapeButtonClick = this._onEscapeButtonClick.bind(this);
+    window.addEventListener('hashchange', this._onHashChange);
+    this.restoreFromHash();
   };
 
   /**
@@ -70,6 +72,17 @@
     currentNumber.innerHTML = '' + (index + 1);
     totalNumber.innerHTML = '' + this._photos.length;
 
+    /**
+     * Если в качестве индекса передана строка,
+     * галерея ищет фотографию, путь к которой равен этой строке.
+     */
+    if (typeof index === 'string') {
+      for (var i = 0; i < this._photos.length; i++) {
+        if (this._photos[i].src === index) {
+          this._currentIndex = i;
+        }
+      }
+    }
   };
 
   /**
@@ -77,6 +90,7 @@
    * (нет необходимости их прослушивать, когда галерея закрыта)
    */
   Gallery.prototype.hide = function() {
+    window.location.hash = '';
     this.element.classList.add('invisible');
     this._leftButton.removeEventListener('click', this._onLeftButtonClick);
     this._rightButton.removeEventListener('click', this._onRightButtonClick);
@@ -115,7 +129,7 @@
    */
   Gallery.prototype._onEscapeButtonClick = function(evt) {
     if (evt.keyCode === 27) {
-      this.hide();
+      this._onCloseClick();
     }
     if (event.keyCode === 37) {
       this._onLeftButtonClick();
@@ -125,10 +139,23 @@
     }
   };
 
+  /**
+   * В зависимости от содержимого хэша показываем/прячем галерею.
+   */
+  Gallery.prototype._onHashChange = function() {
+    this.restoreFromHash();
+  }
+
+  Gallery.prototype.restoreFromHash = function() {
+    var hash = location.hash.match(/#photo\/(\S+)/);
+    if (hash.length > 1) {
+      var index = hash[1];
+      gallery.setCurrentPicture(index);
+      gallery.show();
+    } else {
+      this.hide();
+    }
+  }
+
   window.Gallery = Gallery;
 })();
-
-
-
-
-
