@@ -145,18 +145,18 @@
    * В зависимости от содержимого хэша показываем/прячем галерею.
    */
   Gallery.prototype._onHashChange = function() {
-    this.restoreFromHash();
+    //this.restoreFromHash();
   }
 
   Gallery.prototype.restoreFromHash = function() {
-    var hash = window.location.hash.match(/#photo\/(\S+)/);
-    if (hash.length > 1) {
-      var index = hash[1];
-      gallery.setCurrentPicture(index);
-      gallery.show();
-    } else {
-      this.hide();
-    }
+    // var hash = window.location.hash.match(/#photo\/(\S+)/);
+    // if (hash.length > 1) {
+    //   var index = hash[1];
+    //   gallery.setCurrentPicture(index);
+    //   gallery.show();
+    // } else {
+    //   this.hide();
+    // }
   }
 
   window.Gallery = Gallery;
