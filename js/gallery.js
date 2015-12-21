@@ -105,6 +105,7 @@
     if ((this._currentIndex - 1) >= 0) {
       this.setCurrentPicture(this._currentIndex - 1);
     }
+    window.location.hash = 'photo/img' + _currentIndex;
   };
 
   /**
@@ -114,6 +115,7 @@
     if ((this._currentIndex + 1) < this._photos.length) {
       this.setCurrentPicture(this._currentIndex + 1);
     }
+    window.location.hash = 'photo/img' + _currentIndex;
   };
 
   /**
@@ -147,7 +149,7 @@
   }
 
   Gallery.prototype.restoreFromHash = function() {
-    var hash = location.hash.match(/#photo\/(\S+)/);
+    var hash = window.location.hash.match(/#photo\/(\S+)/);
     if (hash.length > 1) {
       var index = hash[1];
       gallery.setCurrentPicture(index);

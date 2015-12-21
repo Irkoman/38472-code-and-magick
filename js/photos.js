@@ -50,10 +50,10 @@
       for (var i = 0; i < elements.length; i++) {
         if (clickedElement === elements[i]) {
           gallery.setCurrentPicture(i);
+          window.location.hash = 'photo/' + i;
           break;
         }
       }
-      window.location.hash = 'photo/img' + clickedElement.src.split('/img').slice(1);
     }
   });
 })();
