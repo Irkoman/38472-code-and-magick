@@ -4,15 +4,20 @@
  * @author Irina Smirnova (smirnovapr@mail.ru)
  */
 
+/* global requirejs: true */
+
+'use strict';
+
 requirejs.config({
   baseUrl: 'js'
 });
 
-'use strict';
-
 define([
   'review',
-  'form'
+  'photos',
+  'gallery',
+  'form',
+  'game'
 ], function(Review) {
   var container = document.querySelector('.reviews-list');
   var filters = document.querySelector('.reviews-filter');

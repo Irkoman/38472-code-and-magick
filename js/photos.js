@@ -5,11 +5,12 @@
  * @author Irina Smirnova (smirnovapr@mail.ru)
  */
 
-/* global Photo: true, Gallery: true */
-
 'use strict';
 
-(function() {
+define([
+  'photo',
+  'gallery'
+], function(Photo, Gallery) {
   /**
    * Коллекция, преобразованная в массив
    * @type {Array} photoData
@@ -56,4 +57,4 @@
       }
     }
   });
-})();
+});

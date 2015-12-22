@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+define(function() {
   /**
    * Конструктор Photo
    * @constructor
@@ -30,5 +30,5 @@
     return this._src;
   };
 
-  window.Photo = Photo;
-})();
+  return Photo;
+});

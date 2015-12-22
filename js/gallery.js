@@ -6,7 +6,7 @@
 
 'use strict';
 
-(function() {
+define(function() {
   /**
    * Конструктор объекта Gallery
    * @constructor
@@ -71,9 +71,13 @@
      * Если в качестве индекса передана строка,
      * галерея ищет фотографию, путь к которой равен этой строке.
      */
+    if (!this._photos) {
+      return;
+    }
+
     if (typeof index === 'string') {
       for (var i = 0; i < this._photos.length; i++) {
-        if (this._photos[i].src === index) {
+        if (this._photos[i]._src.indexOf(index) !== -1) {
           image.src = index;
           this._currentIndex = i + 1;
           currentNumber.innerHTML = '' + (i + 1);
@@ -155,7 +159,7 @@
   Gallery.prototype.restoreFromHash = function() {
     var hash = window.location.hash.match(/#photo\/(\S+)/);
     if (hash !== null) {
-      var index = 'img/screenshots/' + hash[1] + '.png';
+      var index = 'img/screenshots/' + parseInt(hash[1], 10) + '.png';
       this.setCurrentPicture(index);
       this.show();
     } else {
@@ -163,5 +167,5 @@
     }
   };
 
-  window.Gallery = Gallery;
-})();
+  return Gallery;
+});
