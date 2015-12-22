@@ -64,14 +64,8 @@
       previewContainer.removeChild(currentImage);
     }
 
-    this._currentIndex = index;
-
     /** @type {Image} */
     var image = new Image();
-    previewContainer.appendChild(image);
-    image.src = this._photos[index].getSrc();
-    currentNumber.innerHTML = '' + (index + 1);
-    totalNumber.innerHTML = '' + this._photos.length;
 
     /**
      * Если в качестве индекса передана строка,
@@ -80,10 +74,19 @@
     if (typeof index === 'string') {
       for (var i = 0; i < this._photos.length; i++) {
         if (this._photos[i].src === index) {
+          image.src = index;
           this._currentIndex = i + 1;
+          currentNumber.innerHTML = '' + (i + 1);
         }
       }
+    } else {
+      this._currentIndex = index;
+      image.src = this._photos[index].getSrc();
+      currentNumber.innerHTML = '' + (index + 1);
     }
+
+    previewContainer.appendChild(image);
+    totalNumber.innerHTML = '' + this._photos.length;
   };
 
   /**
@@ -103,20 +106,20 @@
    * По клику на кнопку "влево" переключаемся на предыдущую картинку, если она есть.
    */
   Gallery.prototype._onLeftButtonClick = function() {
-    if ((this._currentIndex - 1) >= 0) {
-      this.setCurrentPicture(this._currentIndex - 1);
+    if ((this._currentIndex - 1) > 0) {
+      this._currentIndex--;
+      window.location.hash = 'photo/' + this._currentIndex;
     }
-    window.location.hash = 'photo/' + (this._currentIndex + 1);
   };
 
   /**
    * По клику на кнопку "вправо" - на следующую по порядку (если это возможно).
    */
   Gallery.prototype._onRightButtonClick = function() {
-    if ((this._currentIndex + 1) < this._photos.length) {
-      this.setCurrentPicture(this._currentIndex + 1);
-    }
-    window.location.hash = 'photo/' + (this._currentIndex + 1);
+    if ((this._currentIndex) < this._photos.length) {
+      this._currentIndex++;
+      window.location.hash = 'photo/' + this._currentIndex;
+    }  
   };
 
   /**
@@ -152,8 +155,8 @@
   Gallery.prototype.restoreFromHash = function() {
     var hash = window.location.hash.match(/#photo\/(\S+)/);
     if (hash !== null) {
-      var index = hash[1];
-      //this.setCurrentPicture(index);
+      var index = 'img/screenshots/' + hash[1] + '.png';
+      this.setCurrentPicture(index);
       this.show();
     } else {
       this.hide();
