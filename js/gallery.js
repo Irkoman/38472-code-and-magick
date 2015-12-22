@@ -119,7 +119,7 @@
     if ((this._currentIndex) < this._photos.length) {
       this._currentIndex++;
       window.location.hash = 'photo/' + this._currentIndex;
-    }  
+    }
   };
 
   /**
