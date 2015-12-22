@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+define(function() {
   /**
    * Конструктор объекта Review
    * @param {Object} data
@@ -83,5 +83,5 @@
     filters.classList.remove('invisible');
   };
 
-  window.Review = Review;
-})();
+  return Review;
+});

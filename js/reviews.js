@@ -4,11 +4,16 @@
  * @author Irina Smirnova (smirnovapr@mail.ru)
  */
 
-/* global Review: true*/
+requirejs.config({
+  baseUrl: 'js'
+});
 
 'use strict';
 
-(function() {
+define([
+  'review',
+  'form'
+], function(Review) {
   var container = document.querySelector('.reviews-list');
   var filters = document.querySelector('.reviews-filter');
   var activeFilter = localStorage.getItem('activeFilter') || 'reviews-all';
@@ -178,4 +183,4 @@
 
     xhr.send();
   }
-})();
+});
