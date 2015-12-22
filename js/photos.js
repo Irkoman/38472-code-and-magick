@@ -25,12 +25,13 @@ define([
   photos = photos.concat(photoData.map(function() {
     /** @type {Photo} photoElement */
     var photoElement = new Photo();
+
     photoElement.setSrc(photoData[index].src);
     index++;
     return photoElement;
   }));
 
- /** @type {Gallery} */
+  /** @type {Gallery} */
   var gallery = new Gallery();
   gallery.setPictures(photos);
 
@@ -57,4 +58,21 @@ define([
       }
     }
   });
+
+  /**
+   * В зависимости от содержимого хэша показываем/прячем галерею.
+   */
+  var restoreFromHash = function() {
+    var hash = window.location.hash.match(/#photo\/(\S+)/);
+    if (hash !== null) {
+      index = 'img/screenshots/' + parseInt(hash[1], 10) + '.png';
+      gallery.setCurrentPicture(index);
+      gallery.show();
+    } else {
+      gallery.hide();
+    }
+  };
+
+  window.addEventListener('hashchange', restoreFromHash);
+  restoreFromHash();
 });

@@ -21,9 +21,6 @@ define(function() {
     this._onRightButtonClick = this._onRightButtonClick.bind(this);
     this._onCloseClick = this._onCloseClick.bind(this);
     this._onEscapeButtonClick = this._onEscapeButtonClick.bind(this);
-    this._onHashChange = this._onHashChange.bind(this);
-    window.addEventListener('hashchange', this._onHashChange);
-    this.restoreFromHash();
   };
 
   /**
@@ -146,24 +143,6 @@ define(function() {
     }
     if (event.keyCode === 39) {
       this._onRightButtonClick();
-    }
-  };
-
-  /**
-   * В зависимости от содержимого хэша показываем/прячем галерею.
-   */
-  Gallery.prototype._onHashChange = function() {
-    this.restoreFromHash();
-  };
-
-  Gallery.prototype.restoreFromHash = function() {
-    var hash = window.location.hash.match(/#photo\/(\S+)/);
-    if (hash !== null) {
-      var index = 'img/screenshots/' + parseInt(hash[1], 10) + '.png';
-      this.setCurrentPicture(index);
-      this.show();
-    } else {
-      this.hide();
     }
   };
 
