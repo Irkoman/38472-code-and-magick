@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
   /**
    * @const
    * @type {number}
@@ -722,7 +722,49 @@
   window.Game = Game;
   window.Game.Verdict = Verdict;
 
+  /** @type {Game} */
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
-})();
+
+  var scrollTimeout;
+  var cloudsMoving = true;
+  var demoPaused = false;
+
+  /**
+   * Слушатель для события scroll
+   */
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    var clouds = document.querySelector('.header-clouds');
+    var demo = document.querySelector('.demo');
+    var scrolled = window.pageYOffset || document.body.scrollTop;
+
+    if (cloudsMoving) {
+      clouds.style.backgroundPositionX = '-' + scrolled + 'px';
+    }
+    if (demoPaused) {
+      game.setGameStatus(window.Game.Verdict.PAUSE);
+    }
+
+    /**
+     * Устанавливаем таймаут: каждые 100ms проверяем, видны ли
+     * пользователю блоки с облаками и демо игры. Если да - выполняем
+     * действия для cloudsMoving и demoPaused.
+     * @function
+     * @return {boolean}
+     */
+    scrollTimeout = setTimeout(function() {
+      if (clouds.getBoundingClientRect().bottom > 0) {
+        cloudsMoving = true;
+      } else {
+        cloudsMoving = false;
+      }
+      if (demo.getBoundingClientRect().bottom < 0) {
+        demoPaused = true;
+      } else {
+        demoPaused = false;
+      }
+    }, 100);
+  });
+});

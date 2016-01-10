@@ -1,16 +1,41 @@
+/**
+ * @fileoverview Основной файл, отвечающий за отрисовку и фильтрацию отзывов.
+ * "Управляет" также конструкторами Review (review.js) и Gallery (gallery.js).
+ * @author Irina Smirnova (smirnovapr@mail.ru)
+ */
+
+/* global requirejs: true */
+
 'use strict';
 
-(function() {
+requirejs.config({
+  baseUrl: 'js'
+});
+
+define([
+  'review',
+  'photos',
+  'gallery',
+  'form',
+  'game'
+], function(Review) {
   var container = document.querySelector('.reviews-list');
   var filters = document.querySelector('.reviews-filter');
-  var activeFilter = 'reviews-all';
+  var activeFilter = localStorage.getItem('activeFilter') || 'reviews-all';
+  var moreReviews = document.querySelector('.reviews-controls-more');
   var reviews = [];
   var filteredReviews = [];
+  var renderedElements = [];
   var currentPage = 0;
-  var PAGE_SIZE = 3;
-  var IMAGE_TIMEOUT = 10000;
-  var moreReviews = document.querySelector('.reviews-controls-more');
 
+  /** @const {number} */
+  var PAGE_SIZE = 3;
+
+  /**
+   * Слушаем события по клику на фильтры,
+   * чтобы установить нужный activeFilter.
+   * @param {Event} evt
+   */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
     if (clickedElement.name === 'reviews') {
@@ -20,11 +45,16 @@
 
   filters.classList.add('invisible');
 
-  moreReviews.onclick = function() {
-    if (currentPage < Math.ceil(filteredReviews.length / PAGE_SIZE)) {
+  /**
+   * Обработчик событий для кнопки "Ещё отзывы":
+   * при клике по ней отображаем следующую
+   * страницу отзывов (если она имеется).
+   */
+  moreReviews.addEventListener('click', function() {
+    if (currentPage <= Math.ceil(filteredReviews.length / PAGE_SIZE)) {
       renderReviews(filteredReviews, ++currentPage);
     }
-  };
+  });
 
   getReviews();
 
@@ -35,8 +65,15 @@
    * @param {boolean=} replace
    */
   function renderReviews(reviewsToRender, pageNumber, replace) {
+    /**
+     * При фильтрации (replace === true) удаляем компоненты,
+     * которые были предварительно сохранены в массиве renderedElements
+     */
     if (replace) {
-      container.innerHTML = '';
+      var el;
+      while ((el = renderedElements.shift())) {
+        container.removeChild(el.element);
+      }
     }
 
     var fragment = document.createDocumentFragment();
@@ -44,14 +81,20 @@
     var to = from + PAGE_SIZE;
     var pageReviews = reviewsToRender.slice(from, to);
 
-    if (reviews.length > 3) {
-      moreReviews.classList.remove('invisible');
-    }
-
-    pageReviews.forEach(function(review) {
-      var element = getElementFromTemplate(review);
-      fragment.appendChild(element);
-    });
+    /**
+     * Создание компонентов с помощью конструктора Review
+     * и сохранение их в массив renderedElements
+     */
+    renderedElements = renderedElements.concat(pageReviews.map(function(review, index) {
+      /** @type {Review} reviewElement */
+      var reviewElement = new Review(review);
+      reviewElement.render();
+      fragment.appendChild(reviewElement.element);
+      if (index === pageReviews.length - 1) {
+        moreReviews.classList.remove('invisible');
+      }
+      return reviewElement;
+    }));
 
     container.appendChild(fragment);
   }
@@ -59,15 +102,11 @@
   /**
    * Установка выбранного фильтра
    * @param {string} id
-   * @param {boolean=} force Флаг, при котором игнорируется проверка
-   *     на повторное присвоение фильтра.
    */
   function setActiveFilter(id) {
-    if (activeFilter === id) {
-      return;
-    }
 
-    filteredReviews = reviews.slice(0); // Копирование массива
+    /** Копирование массива */
+    filteredReviews = reviews.slice(0);
 
     switch (id) {
       case 'reviews-all':
@@ -107,32 +146,41 @@
         break;
     }
 
+    currentPage = 0;
     renderReviews(filteredReviews, 0, true);
     activeFilter = id;
+    document.querySelector('#' + id).checked = true;
+    localStorage.setItem('activeFilter', id);
   }
 
   /**
    * Загрузка списка отзывов
    */
   function getReviews() {
+    /** @type {XMLHttpRequest} xhr */
     var xhr = new XMLHttpRequest();
     document.querySelector('.reviews').classList.add('reviews-list-loading');
     xhr.open('GET', 'data/reviews.json');
-    xhr.timeout = 10000;
 
+    /**
+     * Обработчик события onload (данные успешно загружены)
+     * @param {Event} evt
+     */
     xhr.onload = function(evt) {
       var rawData = evt.target.response;
-      var loadedReviews = JSON.parse(rawData);
-      updateLoadedReviews(loadedReviews);
-      renderReviews(loadedReviews, 0);
+      reviews = JSON.parse(rawData);
+      filteredReviews = reviews;
+      setActiveFilter(activeFilter);
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
     };
 
+    /** Обработчик события onerror */
     xhr.onerror = function() {
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
       document.querySelector('.reviews').classList.add('reviews-load-failure');
     };
 
+    /** Обработчик события ontimeout */
     xhr.ontimeout = function() {
       document.querySelector('.reviews').classList.remove('reviews-list-loading');
       document.querySelector('.reviews').classList.add('reviews-load-failure');
@@ -140,70 +188,4 @@
 
     xhr.send();
   }
-
-  function getElementFromTemplate(data) {
-    var template = document.querySelector('#review-template');
-
-    if ('content' in template) {
-      var element = template.content.children[0].cloneNode(true);
-    } else {
-      element = template.children[0].cloneNode(true);
-    }
-
-    element.querySelector('.review-text').textContent = data.description;
-
-    var reviewRating = element.querySelector('.review-rating');
-    switch (data.rating) {
-      case 1:
-        reviewRating.classList.add('review-rating-one');
-        break;
-      case 2:
-        reviewRating.classList.add('review-rating-two');
-        break;
-      case 3:
-        reviewRating.classList.add('review-rating-three');
-        break;
-      case 4:
-        reviewRating.classList.add('review-rating-four');
-        break;
-      case 5:
-        reviewRating.classList.add('review-rating-five');
-        break;
-    }
-
-    var authorPhoto = new Image(124, 124);
-
-    var imageLoadTimeout = setTimeout(function() {
-      authorPhoto.src = '';
-      element.classList.add('review-load-failure');
-    }, IMAGE_TIMEOUT);
-
-    authorPhoto.onload = function() {
-      clearTimeout(imageLoadTimeout);
-      element.replaceChild(authorPhoto, element.querySelector('.review-author'));
-    };
-
-    authorPhoto.onerror = function() {
-      clearTimeout(imageLoadTimeout);
-      element.classList.add('review-load-failure');
-    };
-
-    authorPhoto.src = data.author.picture;
-    authorPhoto.title = data.author.name;
-    authorPhoto.classList.add('review-author');
-
-    filters.classList.remove('invisible');
-
-    return element;
-  }
-
-   /**
-   * Сохранение списка отзывов в переменную reviews, обновление счётчика отзывов
-   * и вызов фильтрации и отрисовки.
-   * @param {Array.<Object>} loadedReviews
-   */
-  function updateLoadedReviews(loadedReviews) {
-    reviews = loadedReviews;
-    setActiveFilter(activeFilter, true);
-  }
-})();
+});
