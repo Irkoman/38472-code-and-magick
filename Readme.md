@@ -3,7 +3,7 @@
 [![Build status][travis-image]][travis-url]
 [![Dependency status][dependency-image]][dependency-url]
 
-Студент: [Ирина Смирнова](https://htmlacademy.ru/profile/id38472)
+[Ирина Смирнова](https://htmlacademy.ru/profile/id38472)
 
 ### Что было сделано:
 * доработана демонстрационная версия игры (экраны с&nbsp;сообщениями отрисовываются на&nbsp;canvas);
@@ -15,6 +15,7 @@
 * код галереи в&nbsp;объектно-ориентированном стиле (её&nbsp;показ связан с&nbsp;кликами по&nbsp;фотографиям);
 * работа с&nbsp;адресной строкой;
 * подключена система сборки зависимостей require.js, модули написаны в&nbsp;стиле AMD.
+
 
 <a href="https://htmlacademy.ru/js_intensive"><img align="left" width="50" height="50" title="HTML Academy" src="https://htmlacademy.ru/static/img/logo-github-javascript.svg"></a>
 
