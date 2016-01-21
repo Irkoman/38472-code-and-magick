@@ -1,4 +1,4 @@
-# Проект «Code and Magick»
+# <a href="http://irkoman.github.io/code-and-magick/" target="_blank">Проект «Code and Magick»</a>
 
 [![Build status][travis-image]][travis-url]
 [![Dependency status][dependency-image]][dependency-url]
