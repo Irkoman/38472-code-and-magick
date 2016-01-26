@@ -1,7 +1,6 @@
 # Проект «Code and Magick»
 
 [![Build status][travis-image]][travis-url]
-[![Dependency status][dependency-image]][dependency-url]
 
 [Ирина Смирнова](https://htmlacademy.ru/profile/id38472)
 
@@ -17,11 +16,9 @@
 * подключена система сборки зависимостей require.js, модули написаны в&nbsp;стиле AMD.
 
 
-<a href="https://htmlacademy.ru/js_intensive"><img align="left" width="50" height="50" title="HTML Academy" src="https://htmlacademy.ru/static/img/logo-github-javascript.svg"></a>
+<a href="https://htmlacademy.ru/js_intensive"><img align="left" width="50" height="50" title="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github.svg"></a>
 
 Проект был успешно защищён на интенсивном онлайн-курсе «[Базовый JavaScript](https://htmlacademy.ru/js_intensive)» от [HTML Academy](https://htmlacademy.ru).
 
 [travis-image]: https://travis-ci.org/js-htmlacademy/38472-code-and-magick.svg?branch=master
 [travis-url]: https://travis-ci.org/js-htmlacademy/38472-code-and-magick
-[dependency-image]: https://david-dm.org/js-htmlacademy/38472-code-and-magick.svg?style=flat-square
-[dependency-url]: https://david-dm.org/js-htmlacademy/38472-code-and-magick
