@@ -431,6 +431,11 @@ input[type=radio]:checked + .review-mark-label {
   text-align: center;
 }
 
+.overlay-gallery img {
+  width: auto;
+  max-height: 550px;
+}
+
 .overlay-gallery-controls {
   margin: 100px 0;
 }
@@ -449,7 +454,6 @@ input[type=radio]:checked + .review-mark-label {
 }
 
 .overlay-gallery-preview {
-  border: dotted 1px rgba(255, 255, 255, 0.2);
   display: inline-block;
   min-height: 300px;
   min-width: 300px;
